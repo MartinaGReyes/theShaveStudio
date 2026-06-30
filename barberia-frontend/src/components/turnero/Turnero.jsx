@@ -150,45 +150,65 @@ function Turnero() {
     setHorariosDisponibles([]);
   };
 
+  const pasos = [1, 2, 3, 4, 5];
+
   // --- Renderizado condicional de componentes ---
   return (
-    <div>
-      <h1>Solicitar un Turno</h1>
-      {errorMensaje && <div className="alert alert-danger">{errorMensaje}</div>}
-      
-      {paso === 1 && <SelectorServicios servicios={servicios} onSelectServicio={handleSelectServicio} />}
-      
-      {paso === 2 && <SelectorBarberos barberos={barberos} onSelectBarbero={handleSelectBarbero} />}
-      
-      {paso === 3 && (
-        <CalendarioDisponibilidad 
-          onSelectFechaHora={handleSelectFechaHora} 
-          horariosDisponibles={horariosDisponibles}
-          cargando={cargandoHorarios}
-          // Pasamos una función para que el hijo actualice la fecha en el padre
-          onFechaChange={(fecha) => setSeleccion(prev => ({ ...prev, fecha, hora: '' }))}
-        />
-      )}
-      
-      {paso === 4 && <FormularioConfirmacion onSubmit={handleSubmitDatosCliente} />}
-
-      {paso === 5 && (
-        <div className="alert alert-success">
-          <h2>¡Turno Confirmado!</h2>
-          <p>Gracias, {seleccion.cliente.Nombre}. Tu turno ha sido agendado con éxito.</p>
-          <p><strong>Servicio:</strong> {seleccion.servicio.Nombre}</p>
-          <p><strong>Barbero:</strong> {seleccion.barbero.Nombre}</p>
-          <p><strong>Fecha y Hora:</strong> {new Date(seleccion.turnoConfirmado.FechaHora).toLocaleString('es-AR')}</p>
-          <button className="btn btn-primary" onClick={handleReset}>Solicitar Otro Turno</button>
+    <div className="turnero-shell">
+      <div className="turnero-card">
+        <div className="turnero-header">
+          <h1 className="turnero-title">Solicitar un Turno</h1>
+          <p className="turnero-subtitle">Elegí tu servicio, tu profesional y tu horario ideal en pocos pasos.</p>
         </div>
-      )}
 
-      {/* Botón para volver al paso anterior (excepto en el primer y último paso) */}
-      {paso > 1 && paso < 5 && (
-        <button className="btn btn-secondary mt-3" onClick={() => setPaso(paso - 1)}>
-          Volver
-        </button>
-      )}
+        <div className="turnero-timeline" aria-label="Progreso del turno">
+          {pasos.map((numeroPaso) => {
+            const completado = numeroPaso < paso;
+            const activo = numeroPaso === paso;
+            return (
+              <div key={numeroPaso} className="turnero-timeline-step">
+                <div className={`turnero-timeline-circle ${completado ? 'completed' : ''} ${activo ? 'active' : ''}`}>
+                  {numeroPaso}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {errorMensaje && <div className="alert turnero-alert turnero-alert-danger">{errorMensaje}</div>}
+        
+        {paso === 1 && <SelectorServicios servicios={servicios} onSelectServicio={handleSelectServicio} />}
+        
+        {paso === 2 && <SelectorBarberos barberos={barberos} onSelectBarbero={handleSelectBarbero} />}
+        
+        {paso === 3 && (
+          <CalendarioDisponibilidad 
+            onSelectFechaHora={handleSelectFechaHora} 
+            horariosDisponibles={horariosDisponibles}
+            cargando={cargandoHorarios}
+            onFechaChange={(fecha) => setSeleccion(prev => ({ ...prev, fecha, hora: '' }))}
+          />
+        )}
+        
+        {paso === 4 && <FormularioConfirmacion onSubmit={handleSubmitDatosCliente} />}
+
+        {paso === 5 && (
+          <div className="turnero-success-card">
+            <h2>¡Turno Confirmado!</h2>
+            <p>Gracias, {seleccion.cliente.Nombre}. Tu turno ha sido agendado con éxito.</p>
+            <p><strong>Servicio:</strong> {seleccion.servicio.Nombre}</p>
+            <p><strong>Barbero:</strong> {seleccion.barbero.Nombre}</p>
+            <p><strong>Fecha y Hora:</strong> {new Date(seleccion.turnoConfirmado.FechaHora).toLocaleString('es-AR')}</p>
+            <button className="hero-cta-btn mt-3" onClick={handleReset}>Solicitar Otro Turno</button>
+          </div>
+        )}
+
+        {paso > 1 && paso < 5 && (
+          <button className="turnero-secondary-btn mt-3" onClick={() => setPaso(paso - 1)}>
+            Volver
+          </button>
+        )}
+      </div>
     </div>
   );
 }

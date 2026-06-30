@@ -7,10 +7,34 @@ const clientes = require('./clientesModel');
 const turnos = require('./turnosModel');
 const usuarios = require('./usuariosModel');
 
+async function limpiarTablasBackup() {
+  const queryInterface = sequelize.getQueryInterface();
+  const tables = await queryInterface.showAllTables();
+
+  for (const tableName of tables) {
+    if (typeof tableName === 'string' && tableName.endsWith('_backup')) {
+      console.log(`Eliminando tabla de respaldo antigua: ${tableName}`);
+      await queryInterface.dropTable(tableName);
+    }
+  }
+}
+
+const fs = require('fs');
+
 async function inicializarBase() {
   try {
-    // Sincroniza los modelos con la base de datos (crea las tablas si no existen)
-    await sequelize.sync({ alter: true }); // force: true borra y recrea las tablas. ¡CUIDADO EN PRODUCCIÓN!
+    // Eliminar tablas de respaldo viejas que pueden quedar de una sincronización fallida
+    await limpiarTablasBackup();
+
+    // Evitamos alteraciones destructivas en SQLite si ya existe la base de datos
+    const dbExists = fs.existsSync('./.data/barberia.db');
+    if (dbExists) {
+      console.log('Base de datos existente detectada, sincronizando sin alteraciones.');
+      await sequelize.sync();
+    } else {
+      console.log('Base de datos no existente, creando tablas nuevas.');
+      await sequelize.sync();
+    }
 
     const barberosCount = await barberos.count();
     if (barberosCount === 0) {

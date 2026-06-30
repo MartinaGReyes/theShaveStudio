@@ -22,26 +22,26 @@ function FormularioConfirmacion({ onSubmit }) {
   };
 
   return (
-    <div>
-      <h2>Paso 4: Completa tus datos</h2>
-      <form onSubmit={handleSubmit}>
+    <div className="turnero-step-panel">
+      <h2 className="turnero-step-title">Paso 4: Completa tus datos</h2>
+      <form onSubmit={handleSubmit} className="turnero-form">
         <div className="mb-3">
-          <label htmlFor="Nombre" className="form-label">Nombre</label>
-          <input type="text" className="form-control" name="Nombre" onChange={handleChange} required />
+          <label htmlFor="Nombre" className="turnero-form-label">Nombre</label>
+          <input type="text" className="form-control turnero-form-control" name="Nombre" placeholder="Ej: Martina" onChange={handleChange} required />
         </div>
         <div className="mb-3">
-          <label htmlFor="Apellido" className="form-label">Apellido</label>
-          <input type="text" className="form-control" name="Apellido" onChange={handleChange} required />
+          <label htmlFor="Apellido" className="turnero-form-label">Apellido</label>
+          <input type="text" className="form-control turnero-form-control" name="Apellido" placeholder="Ej: López" onChange={handleChange} required />
         </div>
         <div className="mb-3">
-          <label htmlFor="Telefono" className="form-label">Teléfono</label>
-          <input type="tel" className="form-control" name="Telefono" onChange={handleChange} required />
+          <label htmlFor="Telefono" className="turnero-form-label">Teléfono</label>
+          <input type="tel" className="form-control turnero-form-control" name="Telefono" placeholder="Ej: 3512345678" onChange={handleChange} required />
         </div>
         <div className="mb-3">
-          <label htmlFor="Email" className="form-label">Email (Opcional)</label>
-          <input type="email" className="form-control" name="Email" onChange={handleChange} />
+          <label htmlFor="Email" className="turnero-form-label">Email (Opcional)</label>
+          <input type="email" className="form-control turnero-form-control" name="Email" placeholder="Ej: martina@email.com" onChange={handleChange} />
         </div>
-        <button type="submit" className="btn btn-primary">Confirmar Turno</button>
+        <button type="submit" className="hero-cta-btn">Confirmar Turno</button>
       </form>
     </div>
   );

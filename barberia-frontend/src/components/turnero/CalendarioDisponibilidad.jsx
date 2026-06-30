@@ -10,32 +10,31 @@ function CalendarioDisponibilidad({ onSelectFechaHora, horariosDisponibles, carg
   };
   
   return (
-    <div>
-      <h2>Paso 3: Elige fecha y hora</h2>
-      <div className="mb-3">
-        <label htmlFor="fecha" className="form-label">Selecciona una fecha:</label>
+    <div className="turnero-step-panel">
+      <h2 className="turnero-step-title">Paso 3: Elige fecha y hora</h2>
+      <div className="turnero-calendar-box mb-4">
+        <label htmlFor="fecha" className="turnero-form-label">Selecciona una fecha:</label>
         <input 
           type="date" 
           id="fecha"
-          className="form-control"
+          className="form-control turnero-form-control turnero-date-input"
           value={fechaSeleccionada}
           onChange={handleFechaChange}
-          // Para que no se puedan elegir fechas pasadas
           min={new Date().toISOString().split("T")[0]}
         />
       </div>
 
-      {cargando && <p>Buscando horarios disponibles...</p>}
+      {cargando && <p className="turnero-helper-text">Buscando horarios disponibles...</p>}
       
       {!cargando && fechaSeleccionada && (
         <div>
-          <h4>Horarios disponibles para el {new Date(fechaSeleccionada + 'T00:00:00').toLocaleDateString('es-AR')}:</h4>
+          <h4 className="turnero-horarios-title">Horarios disponibles para el {new Date(fechaSeleccionada + 'T00:00:00').toLocaleDateString('es-AR')}:</h4>
           {horariosDisponibles.length > 0 ? (
-            <div className="d-flex flex-wrap gap-2">
+            <div className="turnero-time-list">
               {horariosDisponibles.map(hora => (
                 <button 
                   key={hora} 
-                  className="btn btn-outline-primary"
+                  className="turnero-time-btn"
                   onClick={() => onSelectFechaHora(fechaSeleccionada, hora)}
                 >
                   {hora}
@@ -43,7 +42,7 @@ function CalendarioDisponibilidad({ onSelectFechaHora, horariosDisponibles, carg
               ))}
             </div>
           ) : (
-            <p className="text-danger">No hay horarios disponibles para este día. Por favor, elige otra fecha.</p>
+            <p className="turnero-helper-text turnero-helper-error">No hay horarios disponibles para este día. Por favor, elige otra fecha.</p>
           )}
         </div>
       )}
