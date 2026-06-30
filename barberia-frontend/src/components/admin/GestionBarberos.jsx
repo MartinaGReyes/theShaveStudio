@@ -72,45 +72,73 @@ function GestionBarberos() {
     };
 
     return (
-        <div>
-            <h3>{editando ? 'Editando Barbero' : 'Nuevo Barbero'}</h3>
-            <form onSubmit={handleSubmit}>
-                <input type="text" value={nombre} onChange={e => setNombre(e.target.value)} placeholder="Nombre" required />
-                <input type="text" value={especialidad} onChange={e => setEspecialidad(e.target.value)} placeholder="Especialidad" />
-                <button type="submit">{editando ? 'Actualizar' : 'Crear'}</button>
-                {editando && <button type="button" onClick={resetForm}>Cancelar Edición</button>}
+        <div className="gestion-barberos">
+            <h3 className="gestion-barberos-title">{editando ? 'Editando Barbero' : 'Nuevo Barbero'}</h3>
+            <form className="gestion-barberos-form" onSubmit={handleSubmit}>
+                <input
+                    type="text"
+                    className="gestion-barberos-input"
+                    value={nombre}
+                    onChange={e => setNombre(e.target.value)}
+                    placeholder="Nombre"
+                    required
+                />
+                <input
+                    type="text"
+                    className="gestion-barberos-input"
+                    value={especialidad}
+                    onChange={e => setEspecialidad(e.target.value)}
+                    placeholder="Especialidad"
+                />
+                <div className="gestion-barberos-actions">
+                    <button type="submit" className="gestion-barberos-button">
+                        {editando ? 'Actualizar' : 'Crear'}
+                    </button>
+                    {editando && (
+                        <button type="button" className="gestion-barberos-button gestion-barberos-button-secondary" onClick={resetForm}>
+                            Cancelar Edición
+                        </button>
+                    )}
+                </div>
             </form>
-            <hr />
-            <h3>Lista de Barberos</h3>
-            <table className="table">
-                <thead>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Especialidad</th>
-                        <th>Estado</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {barberos.map(b => (
-                        <tr key={b.IdBarbero}>
-                            <td>{b.Nombre}</td>
-                            <td>{b.Especialidad}</td>
-                            <td>{b.Activo ? 'Activo' : 'Inactivo'}</td>
-                            <td>
-                                <button className="btn btn-sm btn-info me-2" onClick={() => handleEdit(b)}>Editar</button>
-                                <button 
-                                    className={`btn btn-sm me-2 ${b.Activo ? 'btn-warning' : 'btn-success'}`}
-                                    onClick={() => handleToggleEstado(b)}
-                                >
-                                    {b.Activo ? 'Desactivar' : 'Activar'}
-                                </button>
-                                <button className="btn btn-sm btn-danger" onClick={() => handleDelete(b.IdBarbero)}>Eliminar</button>
-                            </td>
+            <hr className="gestion-barberos-divider" />
+            <h3 className="gestion-barberos-title">Lista de Barberos</h3>
+            <div className="gestion-barberos-table-wrapper">
+                <table className="gestion-barberos-table">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Especialidad</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {barberos.map((b, index) => (
+                            <tr key={b.IdBarbero} className={index % 2 === 0 ? 'row-even' : 'row-odd'}>
+                                <td>{b.Nombre}</td>
+                                <td>{b.Especialidad}</td>
+                                <td>{b.Activo ? 'Activo' : 'Inactivo'}</td>
+                                <td className="gestion-barberos-td-actions">
+                                    <button type="button" className="gestion-barberos-button gestion-barberos-table-button" onClick={() => handleEdit(b)}>
+                                        Editar
+                                    </button>
+                                    <button
+                                        type="button"
+                                        className="gestion-barberos-button gestion-barberos-table-button"
+                                        onClick={() => handleToggleEstado(b)}
+                                    >
+                                        {b.Activo ? 'Desactivar' : 'Activar'}
+                                    </button>
+                                    <button type="button" className="gestion-barberos-button gestion-barberos-button-secondary" onClick={() => handleDelete(b.IdBarbero)}>
+                                        Eliminar
+                                    </button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 }

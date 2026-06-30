@@ -39,38 +39,40 @@ function AgendaGeneral() {
     }
 
     return (
-        <div>
-            <h3>Agenda General</h3>
-            <table className="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Fecha</th>
-                        <th>Hora</th>
-                        <th>Barbero</th>
-                        <th>Cliente</th>
-                        <th>Servicio</th>
-                        <th>Estado</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {turnos.length > 0 ? (
-                        turnos.map(turno => (
-                            <tr key={turno.IdTurno}>
-                                <td>{formatFecha(turno.FechaHora)}</td>
-                                <td>{formatHora(turno.FechaHora)}</td>
-                                <td>{turno.barbero?.Nombre || 'N/A'}</td>
-                                <td>{turno.cliente?.Nombre ? `${turno.cliente.Nombre} ${turno.cliente.Apellido}` : 'N/A'}</td>
-                                <td>{turno.servicio?.Nombre || 'N/A'}</td>
-                                <td>{turno.Estado}</td>
-                            </tr>
-                        ))
-                    ) : (
+        <div className="agenda-general">
+            <h3 className="agenda-general-title">Agenda General</h3>
+            <div className="agenda-general-table-wrapper">
+                <table className="agenda-general-table">
+                    <thead>
                         <tr>
-                            <td colSpan="6" className="text-center">No hay turnos registrados</td>
+                            <th>Fecha</th>
+                            <th>Hora</th>
+                            <th>Barbero</th>
+                            <th>Cliente</th>
+                            <th>Servicio</th>
+                            <th>Estado</th>
                         </tr>
-                    )}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {turnos.length > 0 ? (
+                            turnos.map((turno, index) => (
+                                <tr key={turno.IdTurno} className={index % 2 === 0 ? 'row-even' : 'row-odd'}>
+                                    <td>{formatFecha(turno.FechaHora)}</td>
+                                    <td>{formatHora(turno.FechaHora)}</td>
+                                    <td>{turno.barbero?.Nombre || 'N/A'}</td>
+                                    <td>{turno.cliente?.Nombre ? `${turno.cliente.Nombre} ${turno.cliente.Apellido}` : 'N/A'}</td>
+                                    <td>{turno.servicio?.Nombre || 'N/A'}</td>
+                                    <td>{turno.Estado}</td>
+                                </tr>
+                            ))
+                        ) : (
+                            <tr>
+                                <td colSpan="6" className="text-center">No hay turnos registrados</td>
+                            </tr>
+                        )}
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 }
