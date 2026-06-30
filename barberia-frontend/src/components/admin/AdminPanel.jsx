@@ -1,6 +1,8 @@
 // src/components/admin/AdminPanel.jsx
 
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 import GestionBarberos from './GestionBarberos';
 import AgendaGeneral from './AgendaGeneral';
 
@@ -15,6 +17,23 @@ function GestionServicios() {
 
 function AdminPanel() {
     const [vista, setVista] = useState('barberos'); // barberos, servicios, agenda
+    const { logoutContext } = useAuth();
+    const navigate = useNavigate();
+
+    const handleLogout = async () => {
+        try {
+            await fetch('http://localhost:3000/api/logout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+        } catch (error) {
+            console.warn('No se pudo notificar logout al backend:', error);
+        }
+        logoutContext();
+        navigate('/login');
+    };
 
     const renderVista = () => {
         switch (vista) {
@@ -59,7 +78,7 @@ function AdminPanel() {
                     </div>
 
                     <div className="admin-sidebar-footer">
-                        <button className="admin-logout" onClick={() => alert('Cerrar sesión')}>
+                        <button className="admin-logout" onClick={handleLogout}>
                             <span>↩</span>
                             Cerrar sesión
                         </button>

@@ -41,4 +41,9 @@ router.post('/api/login', async (req, res) => {
     }
 });
 
+// POST /api/logout
+router.post('/api/logout', (req, res) => {
+    res.json({ message: 'Sesión cerrada correctamente' });
+});
+
 module.exports = router;
