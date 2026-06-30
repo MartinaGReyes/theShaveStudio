@@ -3,3 +3,7 @@ THE SHAVE STUDIO
 - npm install
 - npm start
 levantar el frontend con -npm run dev
+
+falta boton cerrar sesion
+en la parte de adm en gestion de barbero un filtrar por nombre o especialidad para busqueda 
+realizar el back de gestion de servicios 
