@@ -1,8 +1,8 @@
 // src/components/login/Login.jsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { authService } from '../../services/auth.service';
 import { useAuth } from '../../context/AuthContext';
+import heroImage from '../../assets/barberialogin.jpg';
     
 function Login() {
     const [usuario, setUsuario] = useState('');
@@ -25,19 +25,45 @@ function Login() {
     };
 
     return (
-        <div>
-            <h2>Iniciar Sesión</h2>
-            <form onSubmit={handleLogin}>
-                <div className="mb-3">
-                    <label>Usuario</label>
-                    <input type="text" className="form-control" onChange={(e) => setUsuario(e.target.value)} required />
+        <div className="login-container">
+            <div className="login-background">
+                <h1 className="login-welcome">Bienvenido</h1>
+            </div>
+            <div className="login-grid">
+                <div className="login-info" style={{ backgroundImage: `url(${heroImage})` }}>
+                    <div className="login-info-overlay"></div>
                 </div>
-                <div className="mb-3">
-                    <label>Clave</label>
-                    <input type="password"className="form-control" onChange={(e) => setClave(e.target.value)} required />
+                <div className="login-card">
+                    <h2>Iniciar sesión</h2>
+                    <form onSubmit={handleLogin}>
+                        <div className="login-field">
+                            <label htmlFor="usuario">Usuario</label>
+                            <input
+                                id="usuario"
+                                type="text"
+                                className="login-input"
+                                value={usuario}
+                                onChange={(e) => setUsuario(e.target.value)}
+                                placeholder="Ingresar usuario"
+                                required
+                            />
+                        </div>
+                        <div className="login-field">
+                            <label htmlFor="clave">Clave</label>
+                            <input
+                                id="clave"
+                                type="password"
+                                className="login-input"
+                                value={clave}
+                                onChange={(e) => setClave(e.target.value)}
+                                placeholder="Ingresar clave"
+                                required
+                            />
+                        </div>
+                        <button type="submit" className="login-submit">Iniciar sesión</button>
+                    </form>
                 </div>
-                <button type="submit" className="btn btn-primary">Ingresar</button>
-            </form>
+            </div>
         </div>
     );
 }
